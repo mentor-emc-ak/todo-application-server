@@ -1,0 +1,21 @@
+{
+  "name": "todo-application-server",
+  "version": "1.0.0",
+  "description": "Express + MongoDB server for the Taskr todo application",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.2.0",
+    "mongoose": "^8.4.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
