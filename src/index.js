@@ -5,6 +5,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import { initFirebase } from "./config/firebase.js";
 import todoRoutes from "./routes/todo.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
+app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
 
 // ── 404 handler ───────────────────────────────────────────────────────────────

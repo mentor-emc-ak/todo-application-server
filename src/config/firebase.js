@@ -1,23 +1,26 @@
 import admin from "firebase-admin";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 let initialized = false;
 
 export function initFirebase() {
   if (initialized) return;
 
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
 
-  if (!projectId || !clientEmail || !privateKey) {
+  if (!serviceAccountPath) {
     throw new Error(
-      "Missing Firebase Admin SDK credentials. " +
-        "Ensure FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY are set."
+      "FIREBASE_SERVICE_ACCOUNT_PATH is not defined in environment variables."
     );
   }
 
+  const serviceAccount = JSON.parse(
+    readFileSync(resolve(serviceAccountPath), "utf8")
+  );
+
   admin.initializeApp({
-    credential: admin.credential.cert({ projectId, clientEmail, privateKey }),
+    credential: admin.credential.cert(serviceAccount),
   });
 
   initialized = true;
