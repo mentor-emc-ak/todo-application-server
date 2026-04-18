@@ -1,23 +1,19 @@
 import admin from "firebase-admin";
-import { readFileSync } from "fs";
-import { resolve } from "path";
 
 let initialized = false;
 
 export function initFirebase() {
   if (initialized) return;
 
-  const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
 
-  if (!serviceAccountPath) {
+  if (!serviceAccountJson) {
     throw new Error(
-      "FIREBASE_SERVICE_ACCOUNT_PATH is not defined in environment variables."
+      "FIREBASE_SERVICE_ACCOUNT_JSON is not defined in environment variables."
     );
   }
 
-  const serviceAccount = JSON.parse(
-    readFileSync(resolve(serviceAccountPath), "utf8")
-  );
+  const serviceAccount = JSON.parse(serviceAccountJson);
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
