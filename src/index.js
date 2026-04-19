@@ -4,6 +4,7 @@ import cors from "cors";
 
 import { connectDB } from "./config/db.js";
 import { initFirebase } from "./config/firebase.js";
+import assistantRoutes from "./routes/assistant.routes.js";
 import todoRoutes from "./routes/todo.routes.js";
 import userRoutes from "./routes/user.routes.js";
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
+app.use("/api/assistant", assistantRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
 
